@@ -13,7 +13,7 @@ from aiogram import types
 from aiogram.types import FSInputFile
 import math
 # Bot token can be obtained via https://t.me/BotFather
-TOKEN ='6430079230:AAGxyL2dzCo2LJFSwuTxtmguVKv2fdlxLYw'
+TOKEN ='YOUR_TOKEN'
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 course = 0
@@ -66,21 +66,21 @@ async def admin_auth(message:types.Message):
         print(message.from_user.id)
         print(admins)
         await message.answer(messages['admin'],reply_markup=Keyboards.admin_keyboard())
-        # await course_change(message)
     else:
         await message.answer(messages['adminnot'])
-
-    @dp.message(lambda c: c.text =='Сменить курс') 
-    async def course_change(message:types.Message):
-        print("User ID:", message.from_user.id)
+print('дак а хули')
+@dp.message(lambda c: c.text =='Сменить курс') 
+async def course_change(message:types.Message):
+    print("User ID:", message.from_user.id)
+    if message.from_user.id in admins:
         await message.answer(messages['course'])
+    else:
         await message.answer("У вас нет прав для выполнения этой команды.")
-    @dp.message(lambda message: message.text.isdigit())
-    async def change(message:types.Message):
-        global course
-        course = float((message.text).replace(',',''))
-        await message.answer(f'Новое значение курса: {course}')
-        await message.answer("У вас нет прав для выполнения этой команды.")
+@dp.message(lambda message: message.text.isdigit())
+async def change(message:types.Message):
+    global course
+    course = float((message.text).replace(',',''))
+    await message.answer(f'Новое значение курса: {course}')
 
 
 
